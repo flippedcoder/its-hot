@@ -1,0 +1,8 @@
+
+{
+    "name": "world-of-3d",
+    "version": "0.1.0",
+    "scripts": {
+      "start": "node_modules/http-server/bin/http-server"
+    }
+}
