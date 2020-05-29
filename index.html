@@ -2,36 +2,10 @@
   <head>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+    <script src="components/cursor-listener.js"></script>
+    <script src="components/found-item.js"></script>
   </head>
   <body>
-    <script>
-      AFRAME.registerComponent('found-item', {
-        init: () => {
-          const finderOrb = document.querySelector('a-sphere');
-          const finderPipe = document.querySelector('a-cylinder');
-          finderOrb.addEventListener('mouseenter', (evt) => {
-            finderOrb.object3D.position.set(1, 2, -13);
-          });
-          finderPipe.addEventListener('mouseenter', (evt) => {
-            finderPipe.object3D.position.set(9, 1, -3);
-          });
-        }
-      })
-      AFRAME.registerComponent('cursor-listener', {
-        init: () => {
-          let lastIndex = -1;
-          const COLORS = ['red', 'green', 'purple'];
-          const finderBox = document.querySelector('.finder-box');
-          finderBox.addEventListener('mouseenter', (evt) => {
-            lastIndex = (lastIndex + 1) % COLORS.length;
-            finderBox.setAttribute('material', 'color', COLORS[lastIndex]);
-          });
-          finderBox.addEventListener('mouseleave', (evt) => {
-            finderBox.setAttribute('material', 'color', 'blue');
-          });
-        }
-      });
-    </script>
     <!-- Sets the base scene for every 3D world/layout -->
     <a-scene>
       <a-assets>
@@ -43,22 +17,22 @@
         <audio src="./assets/sounds/background-music.mp3" autoplay preload></audio>
       </a-assets>
       <a-box
+        id="wooden-block"
         height="3"
         rotation="0 60 45"
         src="#woodTexture"
-        position="0 3 -17"
+        position="37 2 -37"
         animation__position="property: object3D.position.y; to: 2.2; dir: alternate; dur: 2000; loop: true"
-        animation__mouseenter="property: scale; to: 3 3 3; dur: 300; startEvents: mouseenter"
-        animation__mouseleave="property: scale; to: 2 2 2; dur: 300; startEvents: mouseleave"
+        found-item
       ></a-box>
       <a-sphere
-        position="4 1.25 -5"
+        position="-45 1.25 40"
         radius="1.25"
         src="#metalTexture"
         found-item
       ></a-sphere>
       <a-cylinder
-        position="5 5 -3"
+        position="44 1 -53"
         radius="0.5"
         height="1.5"
         src="#stoneTexture"
@@ -69,6 +43,7 @@
         height="2"
         width="2"
         position="-1 3 -3"
+        animation__position="property: object3D.position.y; to: 2.2; dir: alternate; dur: 2000; loop: true"
       >
         <a-entity
           text="color: #161a19;
@@ -77,29 +52,42 @@
             1 metal sphere\n
             1 brick cylinder\n
             1 colored box\n
-            1 wooden box\n
+            1 wooden block\n
             1 stone cone"
           position="1 0 0"
           scale="3 3 3"
-        ></a-plane>
+        >
+      </a-plane>
       </a-box>
       <a-box
-        class="finder-box"
-        position="2 4 -5"
+        id="finder-box"
+        position="2 1 -5"
         material="color: blue"
         cursor-listener
+        found-item
       ></a-box>
       <a-entity
         environment="preset: goaland; dressingAmount: 750; dressingColor: #519839; seed: 5; skyType: atmosphere; shadow: true; fog: 0.3; ground: canyon; groundColor: #c46404;"
       ></a-entity>
-      <a-camera look-controls>
-        <a-entity 
-          cursor="fuse: true; fuseTimeout: 500"
-          position="0 0 -1"
-          geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.03"
-          material="color: black; shader: flat"
-        ></a-entity>
-      </a-camera>
+      <a-entity id="camera-container">
+        <a-camera look-controls id="world-camera">
+          <a-entity 
+            cursor="fuse: true; fuseTimeout: 500"
+            position="0 0 -1"
+            geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.03"
+            material="color: black; shader: flat"
+            id="marker"
+          ></a-entity>
+          <!-- position coordinates are: left-right up-down in-out -->
+          <!-- <a-sphere
+            id="fixed-camera-sphere"
+            position="4 -1 -3"
+            radius="1.25"
+            src="#metalTexture"
+            found-item
+          ></a-sphere> -->
+        </a-camera>
+      </a-entity>
     </a-scene>
   </body>
 </html>
