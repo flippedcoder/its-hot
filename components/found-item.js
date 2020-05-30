@@ -18,7 +18,7 @@ AFRAME.registerComponent('found-item', {
 
         finderOrb.addEventListener('click', () => {
             finderOrb.setAttribute('scale', { x: 0.25, y: 0.25, z: 0.25 })
-            finderPipe.object3D.position.set(0, 1, 0)
+            finderOrb.object3D.position.set(0, 1, 0)
         })
 
         finderPipe.addEventListener('click', () => {

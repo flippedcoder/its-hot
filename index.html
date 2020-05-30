@@ -21,16 +21,23 @@
         height="3"
         rotation="0 60 45"
         src="#woodTexture"
-        position="37 2 -37"
+        position="37 1 -37"
         animation__position="property: object3D.position.y; to: 2.2; dir: alternate; dur: 2000; loop: true"
         found-item
       ></a-box>
       <a-sphere
-        position="-45 1.25 40"
+        position="-45 1 40"
         radius="1.25"
         src="#metalTexture"
         found-item
       ></a-sphere>
+      <a-box
+        id="finder-box"
+        position="41 1 29"
+        material="color: blue"
+        cursor-listener
+        found-item
+      ></a-box>
       <a-cylinder
         position="44 1 -53"
         radius="0.5"
@@ -52,20 +59,11 @@
             1 metal sphere\n
             1 brick cylinder\n
             1 colored box\n
-            1 wooden block\n
-            1 stone cone"
+            1 wooden block"
           position="1 0 0"
           scale="3 3 3"
         >
       </a-plane>
-      </a-box>
-      <a-box
-        id="finder-box"
-        position="2 1 -5"
-        material="color: blue"
-        cursor-listener
-        found-item
-      ></a-box>
       <a-entity
         environment="preset: goaland; dressingAmount: 750; dressingColor: #519839; seed: 5; skyType: atmosphere; shadow: true; fog: 0.3; ground: canyon; groundColor: #c46404;"
       ></a-entity>
