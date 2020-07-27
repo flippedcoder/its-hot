@@ -1,15 +1,15 @@
-const brain = require("brain.js");
-const bodyParser = require("body-parser")
-const cors = require("cors");
-const express = require("express");
+const brain = require('brain.js')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const express = require('express')
 
 // start up express app
-const app = express();
+const app = express()
 
 // use libraries to get data from the front-end
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cors());
+app.use(cors())
 
 /*
 User Features:
@@ -17,10 +17,10 @@ User Features:
   - y final coordinate (number)
   - z final coordinate (number)
   - item found (boolean)
-  - steps taken (number)
+  - steps taken (number) (assume number of steps is the difference between all of the coordinates from beginning position to end position **this would never be true)
 */
 // initial training data
-const  trainingDataInput = [
+const trainingDataInput = [
   { x: 5.4, y: 1.2, z: -7.9, itemFound: 1, stepsTaken: 584 },
   { x: -8.4, y: 1.2, z: 5.9, itemFound: 0, stepsTaken: 864 },
   { x: 5.4, y: 1.2, z: -7.9, itemFound: 1, stepsTaken: 684 },
@@ -46,7 +46,7 @@ const  trainingDataInput = [
 
 /*
 Prediction:
-  - will user finish the task
+  - will user finish the game
 */
 // initial training prediction
 const trainingDataOutput = [
@@ -77,7 +77,7 @@ const trainingDataOutput = [
 const trainingSet = trainingDataOutput.map((value, index) => {
   return {
     input: trainingDataInput[index],
-    output: value
+    output: value,
   }
 })
 
@@ -87,13 +87,19 @@ const net = new brain.NeuralNetwork({ hiddenLayers: [3] })
 // train the model with the trainingSet array and get the stats
 const stats = net.train(trainingSet)
 console.log(stats)
+console.log(
+  net.run({ x: 18.8, y: 12.2, z: -19.5, itemFound: 0, stepsTaken: 3483 })
+)
 
 /** get the user data from the front-end after the user finds all of the objects */
-app.post("/api/getUserData/", (req, res) => {
-  const userData = req.body.userData;
+app.post('/api/getUserData/', (req, res) => {
+  const userData = req.body.userData
 
-  res.status(200);
-  res.send(userData);
-});
+  // return the predicted best value for one of the items left to find based on the new user info
+  const newItemLocation = { x: 3.4, y: -19.5, z: 5.2 }
 
-app.listen("3500", () => console.log("endpoints running on port 3500"));
+  res.status(200)
+  res.send(newItemLocation)
+})
+
+app.listen('3500', () => console.log('endpoints running on port 3500'))

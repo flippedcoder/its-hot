@@ -5,6 +5,7 @@
         "start": "node_modules/http-server/bin/http-server"
     },
     "dependencies": {
+        "axios": "^0.19.2",
         "body-parser": "^1.19.0",
         "brain.js": "^2.0.0-beta.1",
         "cors": "^2.8.5",
