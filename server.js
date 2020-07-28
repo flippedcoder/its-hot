@@ -93,10 +93,13 @@ console.log(
 
 /** get the user data from the front-end after the user finds all of the objects */
 app.post('/api/getUserData/', (req, res) => {
-  const userData = req.body.userData
+  const { xPos, yPos, zPos, steps, itemFound } = req.body.userData
 
   // return the predicted best value for one of the items left to find based on the new user info
-  const newItemLocation = { x: 3.4, y: -19.5, z: 5.2 }
+  const newXPos = xPos + (steps * (itemFound ? 1 : -1)) / (xPos + yPos + zPos)
+  const newZPos = zPos + steps / (xPos + yPos + zPos)
+
+  const newItemLocation = { x: newXPos, y: yPos, z: newZPos }
 
   res.status(200)
   res.send(newItemLocation)
