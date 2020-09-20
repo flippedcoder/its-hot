@@ -1,5 +1,3 @@
-import sendUserData from './user-model'
-
 AFRAME.registerComponent('found-item', {
     init: () => {
         const finderOrb = document.querySelector('a-sphere')
@@ -8,31 +6,19 @@ AFRAME.registerComponent('found-item', {
         const finderBlock = document.querySelector('#wooden-block')
 
         finderBox.addEventListener('click', () => {
-            // send the position of the object as the user position
-            const newPos = sendUserData(finderBox.object3D.position.get())
-            finderBox.setAttribute('scale', { x: 0.25, y: 0.25, z: 0.25 })
-            finderBox.object3D.position.set(newPos.x, newPos.y, newPos.z)
+            finderBox.object3D.position.set(1, 2, 1)
         })
 
         finderBlock.addEventListener('click', () => {
-            // send the position of the object as the user position
-            sendUserData(finderBlock.object3D.position.get())
-            finderBlock.setAttribute('scale', { x: 0.25, y: 0.25, z: 0.25 })
-            finderBlock.object3D.position.set(newPos.x, newPos.y, newPos.z)
+            finderBlock.object3D.position.set(1, 3, 1)
         })
 
         finderOrb.addEventListener('click', () => {
-            // send the position of the object as the user position
-            sendUserData(finderOrb.object3D.position.get())
-            finderOrb.setAttribute('scale', { x: 0.25, y: 0.25, z: 0.25 })
-            finderOrb.object3D.position.set(newPos.x, newPos.y, newPos.z)
+            finderOrb.object3D.position.set(1, 1, 1)
         })
 
-        finderPipe.addEventListener('click', () => {            
-            // send the position of the object as the user position
-            sendUserData(finderPipe.object3D.position.get())
-            finderPipe.setAttribute('scale', { x: 0.25, y: 0.25, z: 0.25 })
-            finderPipe.object3D.position.set(newPos.x, newPos.y, newPos.z)
+        finderPipe.addEventListener('click', () => {    
+            finderPipe.object3D.position.set(1, 4, 1)
         });
     }
 })
