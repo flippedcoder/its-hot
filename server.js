@@ -86,6 +86,7 @@ const net = new brain.NeuralNetwork({ hiddenLayers: [3] })
 
 // train the model with the trainingSet array and get the stats
 const stats = net.train(trainingSet)
+
 console.log(stats)
 console.log(
   net.run({ x: 18.8, y: 12.2, z: -19.5, itemFound: 0, stepsTaken: 3483 })
@@ -95,8 +96,10 @@ console.log(
 app.post('/api/getUserData/', (req, res) => {
   const { xPos, yPos, zPos, steps, itemFound } = req.body.userData
 
+  const prediction = net.run({ x: xPos, y: yPos, z: zPos, steps: steps, itemFound: itemFound })
+
   // return the predicted best value for one of the items left to find based on the new user info
-  const newXPos = xPos + (steps * (itemFound ? 1 : -1)) / (xPos + yPos + zPos)
+  const newXPos = xPos + (steps * (prediction > 0.5 ? 1 : -1)) / (xPos + yPos + zPos)
   const newZPos = zPos + steps / (xPos + yPos + zPos)
 
   const newItemLocation = { x: newXPos, y: yPos, z: newZPos }
